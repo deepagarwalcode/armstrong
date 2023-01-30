@@ -6,6 +6,12 @@ const OrderDetailsSchema = new mongoose.Schema({
         required: true,
         default: ""
     },
+    locationNumber: {
+        type: String,
+        required: true,
+        unique: true,
+        default: ""
+    },
     organisation: {
         type: String,
         required: true,
@@ -46,21 +52,95 @@ const OrderDetailsSchema = new mongoose.Schema({
         required: true,
         default: 0
     },
-    valuePartsDistribution: {
-        type: Array,
+    status: {
+        type: String,
         required: true,
-        default: [],
+        default: "open"
     },
-    won:{
-        type: Boolean,
-        required: true,
-        default: false
-    },
-    lost:{
-        type: Boolean,
-        required: true,
-        default: false
-    }
+    valuePartsDistribution: [
+        {
+            name:{
+                type:String,
+                required:true,
+                default:""
+            },
+            price:{
+                type: String,
+                required: true,
+                default: "0"
+            },
+            cprice:{
+                type: String,
+                required: true,
+                default: "0"
+            },
+            quantity: {
+                type: String,
+                required: true,
+                default: ""
+            },
+            vat:{
+                type: String,
+                required: true,
+                default: "0"
+            },
+            total:{
+                type: String,
+                required: true,
+                default: "0"
+            },
+            open:{
+                type: String,
+                required: true,
+                default: "0"
+            },
+            won:{
+                type: String,
+                required: true,
+                default: "0"
+            },
+            lost:{
+                type: String,
+                required: true,
+                default: "0"
+            },
+            profit:{
+                type: String,
+                required: true,
+                default: "0"
+            },
+        },
+
+    ],
+    notes:[
+        {
+            title: {
+                type: String,
+                required: true,
+                default: ""
+            },
+            desc: {
+                type: String,
+                required: true,
+                default: ""
+            }
+        }
+    ],
+    files: [
+        {
+            name: {
+                type: String,
+                required: true,
+                default: ""
+            },
+            url: {
+                type: String,
+                required: true,
+                default: ""
+            }
+        }
+    ]
+    
 
 }, {timestamps: true})
 
