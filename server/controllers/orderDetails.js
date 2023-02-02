@@ -61,7 +61,7 @@ export const getMonthlyRevenue = async (req, res) => {
     const monthlyRevenue = [];
     const revenueData = {};
     orders.forEach((order) => {
-      const month = new Date(order.createdAt).toLocaleString(
+      const month = new Date(order.expectedCloseDate).toLocaleString(
         "default",
         { month: "long" }
       );
@@ -101,9 +101,9 @@ export const getMonthlyRevenueTest = async (req, res) => {
     const revenueData = {};
     orders.forEach((order) => {
       if (order.status !== "won") return;
-      const orderYear = new Date(order.createdAt).getFullYear();
+      const orderYear = new Date(order.expectedCloseDate).getFullYear();
       if (orderYear !== currentYear) return;
-      const month = new Date(order.createdAt).toLocaleString(
+      const month = new Date(order.expectedCloseDate).toLocaleString(
         "default",
         { month: "long" }
       );
@@ -142,9 +142,9 @@ export const getMonthlyStats = async (req, res) => {
     const monthlyStats = [];
     const statsData = {};
     orders.forEach((order) => {
-      const orderYear = new Date(order.createdAt).getFullYear();
+      const orderYear = new Date(order.expectedCloseDate).getFullYear();
       if (orderYear !== currentYear) return;
-      const month = new Date(order.createdAt).toLocaleString(
+      const month = new Date(order.expectedCloseDate).toLocaleString(
         "default",
         { month: "long" }
       );
