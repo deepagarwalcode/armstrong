@@ -52,6 +52,11 @@ const OrderDetailsSchema = new mongoose.Schema({
         required: true,
         default: 0
     },
+    wonValue: {
+        type: Number,
+        required: true,
+        default: 0
+    },
     status: {
         type: String,
         required: true,
@@ -134,6 +139,11 @@ const OrderDetailsSchema = new mongoose.Schema({
                 default: ""
             },
             url: {
+                type: String,
+                required: true,
+                default: ""
+            },
+            public_id: {
                 type: String,
                 required: true,
                 default: ""

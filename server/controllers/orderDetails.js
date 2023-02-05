@@ -110,7 +110,7 @@ export const getMonthlyRevenueTest = async (req, res) => {
       if (!revenueData[month]) {
         revenueData[month] = 0;
       }
-      revenueData[month] += order.value;
+      revenueData[month] += order.wonValue;
     });
     months.forEach((month) => {
       monthlyRevenue.push({ monthName: month, value: revenueData[month] || 0 });
@@ -200,7 +200,9 @@ export const pushNote = async (req, res) => {
 export const deleteNote = async (req, res) => {
   try {
     const order = await OrderDetails.findById(req.params.orderId);
-    order.notes = order.notes.filter(note => note._id.toString() !== req.body.noteId);
+    order.notes = order.notes.filter(
+      (note) => note._id.toString() !== req.body.noteId
+    );
     await order.save();
     res.status(200).json({ message: "Note successfully deleted." });
   } catch (err) {
@@ -212,7 +214,14 @@ export const deleteNote = async (req, res) => {
 export const deleteFile = async (req, res) => {
   try {
     const order = await OrderDetails.findById(req.params.orderId);
-    order.files = order.files.filter(file => file._id.toString() !== req.body.fileId);
+
+    const fileToBeDeleted = order.files.find(
+      (file) => file._id.toString() === req.body.fileId
+    );
+    await cloudinary.v2.uploader.destroy(fileToBeDeleted.public_id);
+    order.files = order.files.filter(
+      (file) => file._id.toString() !== req.body.fileId
+    );
     await order.save();
     res.status(200).json({ message: "File successfully deleted." });
   } catch (err) {
@@ -222,7 +231,7 @@ export const deleteFile = async (req, res) => {
 };
 
 const getDataUri = (file) => {
-  console.log(file);
+  // console.log(file);
   const parser = new DataUriParser();
   const extname = path.extname(file.originalname).toString();
   console.log(extname);
@@ -234,12 +243,16 @@ export const addFile = async (req, res) => {
     const order = await OrderDetails.findById(req.params.orderId);
     const file = req.file;
     const fileUri = getDataUri(file);
-    console.log(file);
+    // console.log(file);
     const mycloud = await cloudinary.v2.uploader.upload(fileUri.content, {
       pages: true,
     });
 
-    order.files.push({ name: file.originalname, url: mycloud.secure_url });
+    order.files.push({
+      name: file.originalname,
+      url: mycloud.secure_url,
+      public_id: mycloud.public_id,
+    });
     await order.save();
     res.status(200).json(order);
 
