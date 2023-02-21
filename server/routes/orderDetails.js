@@ -4,6 +4,7 @@ import {
   addOrder,
   deleteFile,
   deleteNote,
+  deleteOrder,
   getAllOrders,
   getMonthlyRevenue,
   getMonthlyRevenueTest,
@@ -39,5 +40,8 @@ router.put("/deleteNote/:orderId", deleteNote);
 router.put("/deleteFile/:orderId", deleteFile);
 
 router.post("/addFile/:orderId", upload.single("file"), addFile);
+
+router.put("/deleteOneOrder/:orderId", deleteOrder);
+
 
 export default router;

@@ -266,3 +266,13 @@ export const addFile = async (req, res) => {
     console.log(err);
   }
 };
+
+export const deleteOrder = async (req, res) => {
+  try {
+    await OrderDetails.findByIdAndDelete(req.params.orderId);
+    res.status(200).json({ message: "Order successfully deleted." });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: "Internal server error." });
+  }
+};

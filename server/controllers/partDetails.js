@@ -121,3 +121,13 @@ export const addToHistory = async (req, res) => {
     res.status(500).send(err.message);
   }
 };
+
+export const deletePart = async (req, res) => {
+  try {
+    await PartDetails.findByIdAndDelete(req.params.partId);
+    res.status(200).json({ message: "Part successfully deleted." });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: "Internal server error." });
+  }
+};
